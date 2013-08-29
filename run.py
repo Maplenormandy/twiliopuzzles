@@ -50,7 +50,7 @@ def hello_monkey():
         if reDigits.search(root) != None:
             if root in answers:
                 if leaf == answers[root].upper():
-                    message = stock_messages["Correct"].format(puzzle_number=root, answer=leaf, flavor_text=flavor_text[puzzle_number])
+                    message = stock_messages["Correct"].format(puzzle_number=root, answer=leaf, flavor_text=flavor_text[root])
                 else:
                     message = stock_messages["Incorrect"].format(puzzle_number=root, answer=leaf)
             else:
@@ -60,15 +60,12 @@ def hello_monkey():
     elif len(tokens) == 1:
         if root == "HELP":
             message = stock_messages["Help"]
-        else:
-            message = parse_error(command)
-    else:
-        message = stock_messages["Empty"]
     
-    resp = twilio.twiml.Response()
-    resp.sms(message)
-    
-    return str(resp)
+    if message:
+        resp = twilio.twiml.Response()
+        resp.sms(message)
+        
+        return str(resp)
 
 if __name__ == "__main__":
     for puzzle_number, answer in answers.items():
