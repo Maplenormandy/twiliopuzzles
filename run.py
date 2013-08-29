@@ -28,26 +28,16 @@ stock_messages = {
 def hello_monkey():
     """Respond and greet the caller by name."""
     
-    from_number = request.values.get('From', None)
-    if from_number in callers:
-        message = callers[from_number] + ", thanks for the message!"
-    else:
-        message = "Monkey, thanks for the message!"
+    command = request.values.get('body', None)
+    print command
     
-    resp = twilio.twiml.Response()
-    resp.sms(message)
+    # resp = twilio.twiml.Response()
+    # resp.sms(message)
     
-    return str(resp)
+    # return str(resp)
 
 if __name__ == "__main__":
     for puzzle_number, answer in answers.items():
-        print(puzzle_number, stock_messages["Correct"].format(puzzle_number=puzzle_number, answer=answer, flavor_text=favor_text[puzzle_number]).__len__())
+        print(puzzle_number, stock_messages["Correct"].format(puzzle_number=puzzle_number, answer=answer, flavor_text=flavor_text[puzzle_number]).__len__())
         
     app.run(host='0.0.0.0')
-
-    
-    
-    
-    
-    
-    
