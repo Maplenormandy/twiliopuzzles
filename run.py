@@ -49,7 +49,7 @@ def hello_monkey():
         root,leaf = tokens
         if reDigits.search(root) != None:
             if root in answers:
-                if leaf == answers[root]:
+                if leaf == answers[root].upper():
                     message = stock_messages["Correct"].format(puzzle_number=root, answer=leaf, flavor_text=flavor_text[puzzle_number])
                 else:
                     message = stock_messages["Incorrect"].format(puzzle_number=root, answer=leaf)
