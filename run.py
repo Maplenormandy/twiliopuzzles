@@ -33,7 +33,7 @@ storyline = (
 
 client = MongoClient()
 db = client.parallelPuzzle
-teams = client.teams
+teams = db.teams
 
 stock_messages = {
     "Welcome": "Welcome to the pfthi customer support team, {team_name}! Start texting us with answers [CUSTOMER NO.] [SOLUTION], like '1 wombat'",
@@ -80,6 +80,8 @@ def hello_monkey():
     
     tokens = command.split(None, 1)
     
+    print "1"
+    
     if len(tokens) == 2:
         root,leaf = tokens
         if reDigits.search(root) != None:
@@ -119,7 +121,7 @@ def hello_monkey():
         elif root.upper() == "NAME":
             if teams.find_one({"Number":from_number}) == None:
                 if teams.find_one({"Name":leaf}) == None:
-                    teams.insert({"Number":from_number,"Name":leaf,"Completed":list()})
+                    teams.insert({"Number":from_number,"Name":leaf,"Correct":list()})
                     message = parse_name(leaf)
                 else:
                     message = taken_name(leaf)
@@ -138,7 +140,7 @@ def hello_monkey():
     return str(resp)
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', debug=True)
 
     
     
