@@ -40,7 +40,7 @@ def hello_monkey():
     return str(resp)
 
 if __name__ == "__main__":
-    for puzzle_number, answer in answers:
+    for puzzle_number, answer in answers.items():
         print(puzzle_number, stock_messages["Correct"].format(puzzle_number=puzzle_number, answer=answer, flavor_text=favor_text[puzzle_number]).__len__())
         
     app.run(host='0.0.0.0')
