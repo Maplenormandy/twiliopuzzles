@@ -57,7 +57,7 @@ stock_messages = {
 special_messages = {
     "4": {
         "NINTENDO": "Sorry, NINTENDO is close but not quite right. Look at the puzzle again."
-    }
+    },
     "2": {
         "MUSTARD": "Sorry, MUSTARD is close but not quite right. Look at the puzzle again."
     }
