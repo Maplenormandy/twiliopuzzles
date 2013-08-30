@@ -81,7 +81,7 @@ def parse_puzzle_answers(team,from_number,root,leaf):
         if root in team[u'Correct']:
             return stock_messages["Already Answered"].format(puzzle_number=root)
         elif leaf == answers[root].upper():
-            teams.update({"Number":from_number},{"$push":{"Correct":root}})
+            teams.update({"Number":from_number},{"$push":{"Correct":root},"$set":{"SolveTimes."+root:datetime.datetime.utcnow()}})
         
             if len(team[u'Correct']) >= 7:
                 return stock_messages["Final Puzzle"].format(puzzle_number=root, answer=leaf)
@@ -170,7 +170,8 @@ def hello_monkey():
             else:
                 if reWhitespace.sub('',leaf).upper() == answers["META"].upper():
                     message = stock_messages["Meta Correct"].format(answer=reWhitespace.sub('',leaf).upper())
-                    teams.update({"Number":from_number},{"$push":{"Correct":root.upper()}})
+                    teams.update({"Number":from_number},{"$push":{"Correct":root.upper(),"$set":{"SolveTimes.META":datetime.datetime.utcnow()}}})
+                    
                 else:
                     message = stock_messages["Meta Incorrect"].format(answer=reWhitespace.sub('',leaf).upper())
         elif root.upper() == "PENCIL-REMOVE-TEAM":
