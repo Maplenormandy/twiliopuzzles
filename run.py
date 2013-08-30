@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect
+from flask import Flask, request, redirect, Response
 from pymongo import MongoClient
 import twilio.twiml
 import re
@@ -117,13 +117,15 @@ def show_stats():
         ret += str(i) + ": " + str(puzzles_solved[i])
         
     ret += "META: " + str(puzzles_solved[8])
+    
+    return Response(ret, mimetype='text/plain')
 
 @app.route("/allteams.txt")
 def show_teams():
     ret = ""
     for team in teams.find():
         ret += '"' + team[u'TempName'] + '",' + str(len(team[u'Correct'])) + "\r\n"
-    return ret
+    return Response(ret, mimetype='text/plain')
 
 @app.route("/", methods=['GET', 'POST'])
 def hello_monkey():
