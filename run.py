@@ -11,7 +11,7 @@ team_names = {}
 answers = {
     "1": "DCCOMICS",
     "2": "MUSTERED",
-    "3": "FORFEITS",
+    "3": "PRETTIER",
     "4": "HEADACHE",
     "5": "DECANTER",
     "6": "RANCHERO",
@@ -43,7 +43,7 @@ stock_messages = {
     "Name Too Long": "Sorry, please keep your name under 30 characters. Text 'yes' to accept the name '{team_name_temp}' or text to create a new one",
     "Name Too Long First": "Sorry, please keep your name under 30 characters. Text to create a new one",
     "Confirm Name": "Text 'yes' to accept the name '{team_name_temp}' or text to create a new one",
-    "Parse Error": "I'm sorry, we didn't understand '{text}'. Text '?' for help.",
+    "Parse Error": "I'm sorry, we didn't understand '{text}'. Please ",
     "Problem Not Exists": "We don't have a customer no. {puzzle_number}...",
     "Correct": "Thanks! With your answer {answer} we rescued customer no. {puzzle_number}! {storyline}",
     "Incorrect": "Sorry, your answer {answer} for customer no. {puzzle_number} was incorrect. Please try again.",
