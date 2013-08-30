@@ -110,11 +110,11 @@ def show_stats():
     
     ret = "# of Teams by total # of problems solved:\r\n"
     for i in range(10):
-        ret += str(i) + ": " + str(total_solved[i])
+        ret += str(i) + ": " + str(total_solved[i]) + "\r\n"
         
     ret += "\r\n# of puzzle solves by puzzle:\r\n"
     for i in range(8):
-        ret += str(i) + ": " + str(puzzles_solved[i])
+        ret += str(i) + ": " + str(puzzles_solved[i]) + "\r\n"
         
     ret += "META: " + str(puzzles_solved[8])
     
