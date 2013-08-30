@@ -14,7 +14,7 @@ answers = {
     "3": "FORFEITS",
     "4": "HEADACHE",
     "5": "DECANTER",
-    "6": "GARDENER",
+    "6": "RANCHERO",
     "7": "CANISTER",
     "8": "CAVALIER",
     "META": "FLATLAND"
