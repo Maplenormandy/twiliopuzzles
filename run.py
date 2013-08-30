@@ -54,11 +54,21 @@ stock_messages = {
     "Meta Incorrect": "No, {answer} was wrong! Please try again."
 }
 
+special_messages = {
+    "4": {
+        "NINTENDO": "Sorry, NINTENDO is close but not quite right. Look at the puzzle again."
+    }
+    "2": {
+        "MUSTARD": "Sorry, MUSTARD is close but not quite right. Look at the puzzle again."
+    }
+}
+
 parse_length = len(stock_messages["Parse Error"].format(text=""))
 name_length = len(stock_messages["Welcome"].format(team_name=""))
 reDigits = re.compile(r"^\d+$")
 reEndWhitespace = re.compile(r"\s+$")
 reBeginWhitespace = re.compile(r"^\s+")
+reWhitespace = re.compile(r"\s+")
 
 def parse_error(command):
     if len(command) + parse_length < 160:
@@ -70,15 +80,17 @@ def parse_puzzle_answers(team,from_number,root,leaf):
     if root in answers:
         if root in team[u'Correct']:
             return stock_messages["Already Answered"].format(puzzle_number=root)
-        elif leaf.upper() == answers[root].upper():
+        elif leaf == answers[root].upper():
             teams.update({"Number":from_number},{"$push":{"Correct":root}})
         
             if len(team[u'Correct']) >= 7:
-                return stock_messages["Final Puzzle"].format(puzzle_number=root, answer=leaf.upper())
+                return stock_messages["Final Puzzle"].format(puzzle_number=root, answer=leaf)
             else:
-                return stock_messages["Correct"].format(puzzle_number=root, answer=leaf.upper(), storyline=storyline[len(team[u'Correct'])])
+                return stock_messages["Correct"].format(puzzle_number=root, answer=leaf, storyline=storyline[len(team[u'Correct'])])
+        elif root in special_messages and leaf in special_messages[root]:
+            return special_messages[root][leaf]
         else:
-            return stock_messages["Incorrect"].format(puzzle_number=root, answer=leaf.upper())
+            return stock_messages["Incorrect"].format(puzzle_number=root, answer=leaf)
     else:
         return stock_messages["Problem Not Exists"].format(puzzle_number=root)
 
@@ -118,16 +130,16 @@ def hello_monkey():
     elif len(tokens) == 2:
         root,leaf = tokens
         if reDigits.search(root) != None:
-            message = parse_puzzle_answers(team, from_number, root, leaf)
+            message = parse_puzzle_answers(team, from_number, root, reWhitespace.sub('',leaf).upper())
         elif root.upper() == "META":
             if "META" in team[u'Correct']:
                 message = stock_messages["Meta Answered"]   
             else:
-                if leaf.upper() == answers["META"].upper():
-                    message = stock_messages["Meta Correct"].format(answer=leaf.upper())
+                if reWhitespace.sub('',leaf).upper() == answers["META"].upper():
+                    message = stock_messages["Meta Correct"].format(answer=reWhitespace.sub('',leaf).upper())
                     teams.update({"Number":from_number},{"$push":{"Correct":root.upper()}})
                 else:
-                    message = stock_messages["Meta Incorrect"].format(answer=leaf.upper())
+                    message = stock_messages["Meta Incorrect"].format(answer=reWhitespace.sub('',leaf).upper())
         elif root.upper() == "PENCIL-REMOVE-TEAM":
             teams.remove({"Name":leaf})
             message = "Removed " + leaf
