@@ -23,13 +23,13 @@ answers = {
 
 # Enter the flavor text given for a correct answer
 storyline = (
-    "Someone in customer support taped HYDRANTS to their back.",
-    "For some reason, the customer kept ranting on about UPDRAFTS.",
-    "The customer said someone shouted DIABOLIC right before he left.",
-    "Afterwards customer mentioned MENORAHS... don't know how that got out.",
-    "Someone told this one how to mess with the GRAVITON.",
-    "Seems like someone intentially tampered with the TELEPATHS in this case.",
-    "Suspicious though... That UPDRAFTS shouldn't happen under normal circumstances."
+    "Apparently someone in customer support taped DIABOLIC to their back.",
+    "What were MENORAHS doing there? Tell Peter he's fired.",
+    "Looks like somone pretty knowledgable messed with the DEFAULTS on the piffy.",
+    "Turns out this customer has the same favorite brand of HYDRANTS as you!.",
+    "The customer must have been from the company, they mentioned the UPDRAFTS in the supprt offices."
+    "GRAVITON. Remember that one time you became obsessed over them for a week and ...",
+    "The customer was a TELEPATH or something, mentioned and thanked you by name!",
 )
 
 client = MongoClient()
@@ -49,10 +49,10 @@ stock_messages = {
     "Correct": "Thanks! With your answer {answer} we rescued customer no. {puzzle_number}! {storyline}",
     "Incorrect": "Sorry, your answer {answer} for customer no. {puzzle_number} was incorrect. Please try again.",
     "Already Answered": "We've already rescued customer no. {puzzle_number}",
-    "Final Puzzle": "Hi, it's you, customer no. {puzzle_number}. {answer} was correct. Quickly, chase down a staff member with a hat and ask them for a flash drive.",
-    "Meta Correct": "Congratulations, {answer} was correct! You've stopped the company's evil plot! Quickly, chase down a staff member with a hat to tell them of your success.",
-    "Meta Answered": "You've already stopped the evil plot! Chase down a staff member with a hat!",
-    "Meta Incorrect": "No, {answer} was wrong! Please try again."
+    "Final Puzzle": "Hi, it's customer no. {puzzle_number}. {answer} was correct. {team_name}, the last key is GALACTIC, and congratulations on rescuing all of us!",
+    "Meta Correct": "Congratulations, {answer} was correct! Quickly, chase down a staff member with a hat to tell them of your success.",
+    "Meta Answered": "What are you doing using our twilio credit? Hurry up and chase down a staff member with a hat!",
+    "Meta Incorrect": "Sorry, {answer} was wrong. Please try again."
 }
 
 special_messages = {
@@ -95,7 +95,7 @@ def parse_puzzle_answers(team,from_number,root,leaf):
     else:
         return stock_messages["Problem Not Exists"].format(puzzle_number=root)
 
-@app.route("/solved_puzzles.txt")
+@app.route("/solvedpuzzles.txt")
 def show_stats():
     total_solved = [0]*10
     puzzles_solved = [0]*9
