@@ -48,7 +48,7 @@ stock_messages = {
     "Correct": "Thanks! With your answer {answer} we rescued customer no. {puzzle_number}! {storyline}",
     "Incorrect": "Sorry, your answer {answer} for customer no. {puzzle_number} was incorrect. Please try again.",
     "Already Answered": "We've already rescued customer no. {puzzle_number}",
-    "Final Puzzle": "Hi, it's you, customer no. {puzzle_number}. {answer} was correct. Quickly, chase down a staff member with a hat and ask them for a flash drive. The final key is GALACTIC.",
+    "Final Puzzle": "Hi, it's you, customer no. {puzzle_number}. {answer} was correct. Quickly, chase down a staff member with a hat and ask them for a flash drive.",
     "Meta Correct": "Congratulations, {answer} was correct! You've stopped the company's evil plot! Quickly, chase down a staff member with a hat to tell them of your success.",
     "Meta Answered": "You've already stopped the evil plot! Chase down a staff member with a hat!",
     "Meta Incorrect": "No, {answer} was wrong! Please try again."
@@ -93,6 +93,15 @@ def parse_puzzle_answers(team,from_number,root,leaf):
             return stock_messages["Incorrect"].format(puzzle_number=root, answer=leaf)
     else:
         return stock_messages["Problem Not Exists"].format(puzzle_number=root)
+
+        
+
+@app.route("/allteams.txt")
+def show_teams():
+    ret = ""
+    for team in teams.find():
+        ret += '"' + team[u'Name'] + '",' + str(len(team[u'Correct'])) + "\n"
+    return ret
 
 @app.route("/", methods=['GET', 'POST'])
 def hello_monkey():
