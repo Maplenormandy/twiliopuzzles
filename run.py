@@ -84,17 +84,17 @@ def parse_puzzle_answers(team,from_number,root,leaf):
             return stock_messages["Already Answered"].format(puzzle_number=root)
         elif leaf == answers[root].upper():
             teams.update({"Number":from_number},{"$push":{"Correct":root},"$set":{"SolveTimes."+root:datetime.datetime.utcnow()}})
-            subans.update({"_Puzzle":root},{"$inc":{leaf:1},"$push":{"_Answers":leaf}},True)
+            subans.update({"_Puzzle":root},{"$inc":{leaf:1},"$addToSet":{"_Answers":leaf}},True)
         
             if len(team[u'Correct']) >= 7:
                 return stock_messages["Final Puzzle"].format(puzzle_number=root, answer=leaf, team_name=team[u'Name'])
             else:
                 return stock_messages["Correct"].format(puzzle_number=root, answer=leaf, storyline=storyline[len(team[u'Correct'])])
         elif root in special_messages and leaf in special_messages[root]:
-            subans.update({"_Puzzle":root},{"$inc":{leaf:1},"$push":{"_Answers":leaf}},True)
+            subans.update({"_Puzzle":root},{"$inc":{leaf:1},"$addToSet":{"_Answers":leaf}},True)
             return special_messages[root][leaf]
         else:
-            subans.update({"_Puzzle":root},{"$inc":{leaf:1},"$push":{"_Answers":leaf}},True)
+            subans.update({"_Puzzle":root},{"$inc":{leaf:1},"$addToSet":{"_Answers":leaf}},True)
             return stock_messages["Incorrect"].format(puzzle_number=root, answer=leaf)
     else:
         return stock_messages["Problem Not Exists"].format(puzzle_number=root)
@@ -186,10 +186,10 @@ def hello_monkey():
                 if reWhitespace.sub('',leaf).upper() == answers["META"].upper():
                     message = stock_messages["Meta Correct"].format(answer=reWhitespace.sub('',leaf).upper(), team_name=team[u'Name'])
                     teams.update({"Number":from_number},{"$push":{"Correct":root.upper(),"$set":{"SolveTimes.META":datetime.datetime.utcnow()}}})
-                    subans.update({"Puzzle":"META"},{"$inc":{leaf:1}},True)
+                    subans.update({"Puzzle":"META"},{"$addToSet":{leaf:1}},True)
                 else:
                     message = stock_messages["Meta Incorrect"].format(answer=reWhitespace.sub('',leaf).upper())
-                    subans.update({"Puzzle":"META"},{"$inc":{leaf:1}},True)
+                    subans.update({"Puzzle":"META"},{"$addToSet":{leaf:1}},True)
         elif root.upper() == "PENCIL-REMOVE-TEAM":
             teams.remove({"Name":leaf})
             message = "Removed " + leaf
