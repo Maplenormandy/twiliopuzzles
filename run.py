@@ -24,12 +24,12 @@ answers = {
 # Enter the flavor text given for a correct answer
 storyline = (
     "Apparently someone in customer support taped DIABOLIC to their back.",
-    "What were MENORAHS doing there? Tell Peter he's fired.",
+    "What were MENORAHS doing there? Remind me to ask Peter about them...",
     "Looks like somone pretty knowledgable messed with the DEFAULTS on the piffy.",
     "Turns out this customer has the same favorite brand of HYDRANTS as you!.",
-    "The customer must have been from the company, they mentioned the UPDRAFTS in the supprt offices."
+    "The customer must have been from the company, they mentioned the UPDRAFTS in the support offices.",
     "GRAVITON. Remember that one time you became obsessed over them for a week and ...",
-    "The customer was a TELEPATH or something, mentioned and thanked you by name!",
+    "The customer was a TELEPATH or something, mentioned and thanked you by name!"
 )
 
 client = MongoClient()
