@@ -2,6 +2,7 @@ from flask import Flask, request, redirect, Response
 from pymongo import MongoClient
 import twilio.twiml
 import re
+import datetime
 
 app = Flask(__name__)
 
@@ -43,7 +44,7 @@ stock_messages = {
     "Name Too Long": "Sorry, please keep your name under 30 characters. Text 'yes' to accept the name '{team_name_temp}' or text to create a new one",
     "Name Too Long First": "Sorry, please keep your name under 30 characters. Text to create a new one",
     "Confirm Name": "Text 'yes' to accept the name '{team_name_temp}' or text to create a new one",
-    "Parse Error": "I'm sorry, we didn't understand '{text}'. Please ",
+    "Parse Error": "I'm sorry, we didn't understand '{text}'. Please text answers in the format [CUSTOMER NO.] [SOLUTION], like '1 wombat'",
     "Problem Not Exists": "We don't have a customer no. {puzzle_number}...",
     "Correct": "Thanks! With your answer {answer} we rescued customer no. {puzzle_number}! {storyline}",
     "Incorrect": "Sorry, your answer {answer} for customer no. {puzzle_number} was incorrect. Please try again.",
