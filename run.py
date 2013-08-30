@@ -100,7 +100,7 @@ def parse_puzzle_answers(team,from_number,root,leaf):
 def show_teams():
     ret = ""
     for team in teams.find():
-        ret += '"' + team[u'Name'] + '",' + str(len(team[u'Correct'])) + "\n"
+        ret += '"' + team[u'TempName'] + '",' + str(len(team[u'Correct'])) + "\n"
     return ret
 
 @app.route("/", methods=['GET', 'POST'])
