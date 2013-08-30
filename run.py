@@ -22,13 +22,13 @@ answers = {
 
 # Enter the flavor text given for a correct answer
 storyline = (
-    "Someone in customer support taped STRAIGHT to their back.",
-    "For some reason, the customer kept ranting on about MACHINES.",
-    "The customer said someone shouted WORMHOLE right before he left.",
-    "Afterwards customer mentioned DARKFLOW... don't know how that got out.",
-    "Someone told this one how to mess with the ASSEMBLY.",
-    "Seems like someone intentially tampered with the ANTIMASS in this case.",
-    "Suspicious though... That SEGFAULT shouldn't happen under normal circumstances."
+    "Someone in customer support taped HYDRANTS to their back.",
+    "For some reason, the customer kept ranting on about UPDRAFTS.",
+    "The customer said someone shouted DIABOLIC right before he left.",
+    "Afterwards customer mentioned MENORAHS... don't know how that got out.",
+    "Someone told this one how to mess with the GRAVITON.",
+    "Seems like someone intentially tampered with the TELEPATHS in this case.",
+    "Suspicious though... That UPDRAFTS shouldn't happen under normal circumstances."
 )
 
 client = MongoClient()
@@ -48,7 +48,7 @@ stock_messages = {
     "Correct": "Thanks! With your answer {answer} we rescued customer no. {puzzle_number}! {storyline}",
     "Incorrect": "Sorry, your answer {answer} for customer no. {puzzle_number} was incorrect. Please try again.",
     "Already Answered": "We've already rescued customer no. {puzzle_number}",
-    "Final Puzzle": "Hi, it's you, customer no. {puzzle_number}. {answer} was correct. Quickly, chase down a staff member with a hat and ask them for a flash drive. The final key is PARALLEL.",
+    "Final Puzzle": "Hi, it's you, customer no. {puzzle_number}. {answer} was correct. Quickly, chase down a staff member with a hat and ask them for a flash drive. The final key is GALACTIC.",
     "Meta Correct": "Congratulations, {answer} was correct! You've stopped the company's evil plot! Quickly, chase down a staff member with a hat to tell them of your success.",
     "Meta Answered": "You've already stopped the evil plot! Chase down a staff member with a hat!",
     "Meta Incorrect": "No, {answer} was wrong! Please try again."
