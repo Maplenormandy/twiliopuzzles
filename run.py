@@ -186,10 +186,10 @@ def hello_monkey():
                 if reWhitespace.sub('',leaf).upper() == answers["META"].upper():
                     message = stock_messages["Meta Correct"].format(answer=reWhitespace.sub('',leaf).upper(), team_name=team[u'Name'])
                     teams.update({"Number":from_number},{"$push":{"Correct":root.upper(),"$set":{"SolveTimes.META":datetime.datetime.utcnow()}}})
-                    subans.update({"Puzzle":"META"},{"$addToSet":{leaf:1}},True)
+                    subans.update({"_Puzzle":"META"},{"$inc":{leaf:1},"$addToSet":{"_Answers":leaf}},True)
                 else:
                     message = stock_messages["Meta Incorrect"].format(answer=reWhitespace.sub('',leaf).upper())
-                    subans.update({"Puzzle":"META"},{"$addToSet":{leaf:1}},True)
+                    subans.update({"_Puzzle":"META"},{"$inc":{leaf:1},"$addToSet":{"_Answers":leaf}},True)
         elif root.upper() == "PENCIL-REMOVE-TEAM":
             teams.remove({"Name":leaf})
             message = "Removed " + leaf
