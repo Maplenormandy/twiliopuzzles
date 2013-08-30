@@ -43,7 +43,7 @@ stock_messages = {
     "Name Too Long": "Sorry, please keep your name under 30 characters. Text 'yes' to accept the name '{team_name_temp}' or text to create a new one",
     "Name Too Long First": "Sorry, please keep your name under 30 characters. Text to create a new one",
     "Confirm Name": "Text 'yes' to accept the name '{team_name_temp}' or text to create a new one",
-    "Parse Error": "I'm sorry, we didn't understand '{text}'. Text 'help' for help.",
+    "Parse Error": "I'm sorry, we didn't understand '{text}'. Text '?' for help.",
     "Problem Not Exists": "We don't have a customer no. {puzzle_number}...",
     "Correct": "Thanks! With your answer {answer} we rescued customer no. {puzzle_number}! {storyline}",
     "Incorrect": "Sorry, your answer {answer} for customer no. {puzzle_number} was incorrect. Please try again.",
@@ -92,6 +92,8 @@ def hello_monkey():
     
     team = teams.find_one({"Number":from_number})
     
+    message = parse_error(command)
+    
     if team == None:
         if len(command) < 31:
             if teams.find_one({"$or":[{"Name":command}, {"TempName":command}]}) == None:
@@ -123,7 +125,7 @@ def hello_monkey():
             else:
                 if leaf.upper() == answers["META"].upper():
                     message = stock_messages["Meta Correct"].format(answer=leaf.upper())
-                    teams.update({"Number":from_number},{"$push":{"Correct":root}})
+                    teams.update({"Number":from_number},{"$push":{"Correct":root.upper()}})
                 else:
                     message = stock_messages["Meta Incorrect"].format(answer=leaf.upper())
         elif root.upper() == "PENCIL-REMOVE-TEAM":
@@ -132,11 +134,8 @@ def hello_monkey():
             
     elif len(tokens) == 1:
         root = tokens[0]
-        if root.upper() == "HELP":
+        if root.upper() == "?":
             message = stock_messages["Help"]
-    
-    if message == None:
-        message = parse_error(command)
     
     resp = twilio.twiml.Response()
     resp.sms(message)
