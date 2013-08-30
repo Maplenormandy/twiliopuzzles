@@ -35,6 +35,7 @@ storyline = (
 client = MongoClient()
 db = client.parallelPuzzle
 teams = db.teams
+subans = db.subans
 
 stock_messages = {
     "Welcome": "Welcome to the pfthi customer support team, {team_name}! Start texting us with answers [CUSTOMER NO.] [SOLUTION], like '1 wombat'",
@@ -49,8 +50,8 @@ stock_messages = {
     "Correct": "Thanks! With your answer {answer} we rescued customer no. {puzzle_number}! {storyline}",
     "Incorrect": "Sorry, your answer {answer} for customer no. {puzzle_number} was incorrect. Please try again.",
     "Already Answered": "We've already rescued customer no. {puzzle_number}",
-    "Final Puzzle": "Hi, it's customer no. {puzzle_number}. {answer} was correct. {team_name}, the last key is GALACTIC, and congratulations on rescuing all of us!",
-    "Meta Correct": "Congratulations, {answer} was correct! Quickly, chase down a staff member with a hat to tell them of your success.",
+    "Final Puzzle": "Hi, it's customer no. {puzzle_number}. {answer} was correct. The last key is GALACTIC, and congratulations on rescuing all of us {team_name}!",
+    "Meta Correct": "Congratulations {team_name}, {answer} was correct! Quickly, chase down a staff member with a hat to tell them of your success.",
     "Meta Answered": "What are you doing using our twilio credit? Hurry up and chase down a staff member with a hat!",
     "Meta Incorrect": "Sorry, {answer} was wrong. Please try again."
 }
@@ -83,9 +84,10 @@ def parse_puzzle_answers(team,from_number,root,leaf):
             return stock_messages["Already Answered"].format(puzzle_number=root)
         elif leaf == answers[root].upper():
             teams.update({"Number":from_number},{"$push":{"Correct":root},"$set":{"SolveTimes."+root:datetime.datetime.utcnow()}})
+            subans.update({"_Puzzle":root},{"$inc":{leaf:1},"$push":{"_Answers":leaf}},{"upsert":True})
         
             if len(team[u'Correct']) >= 7:
-                return stock_messages["Final Puzzle"].format(puzzle_number=root, answer=leaf)
+                return stock_messages["Final Puzzle"].format(puzzle_number=root, answer=leaf, team_name=team[u'Name'])
             else:
                 return stock_messages["Correct"].format(puzzle_number=root, answer=leaf, storyline=storyline[len(team[u'Correct'])])
         elif root in special_messages and leaf in special_messages[root]:
@@ -94,6 +96,16 @@ def parse_puzzle_answers(team,from_number,root,leaf):
             return stock_messages["Incorrect"].format(puzzle_number=root, answer=leaf)
     else:
         return stock_messages["Problem Not Exists"].format(puzzle_number=root)
+        
+@app.route("/answers.txt")
+def show_answers():
+    ret = ""
+    for ans in subans.find():
+        ret += ans[u'_Puzzle'] + "\r\n"
+        ret += "\r\n".join(['"{}",{}'.format(k,ans[k]) for k in ans[u'_Answers']])
+        ret += "\r\n"
+    
+    return Response(ret, mimetype='text/plain')
 
 @app.route("/solvedpuzzles.txt")
 def show_stats():
@@ -170,9 +182,9 @@ def hello_monkey():
                 message = stock_messages["Meta Answered"]
             else:
                 if reWhitespace.sub('',leaf).upper() == answers["META"].upper():
-                    message = stock_messages["Meta Correct"].format(answer=reWhitespace.sub('',leaf).upper())
+                    message = stock_messages["Meta Correct"].format(answer=reWhitespace.sub('',leaf).upper(), team_name=team[u'Name'])
                     teams.update({"Number":from_number},{"$push":{"Correct":root.upper(),"$set":{"SolveTimes.META":datetime.datetime.utcnow()}}})
-                    
+                    subans.update({"Puzzle":"META"},{"$inc":{leaf:1}},{"upsert":True})
                 else:
                     message = stock_messages["Meta Incorrect"].format(answer=reWhitespace.sub('',leaf).upper())
         elif root.upper() == "PENCIL-REMOVE-TEAM":
