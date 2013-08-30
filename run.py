@@ -101,11 +101,11 @@ def hello_monkey():
             message = stock_messages["Name Too Long First"]
     elif "Name" not in team:
         if tokens[0].upper() == 'YES':
-            teams.update({"Number":from_number},{"Name":team[u'TempName']})
+            teams.update({"Number":from_number},{"$set":{"Name":team[u'TempName']}})
             message = stock_messages["Welcome"].format(team_name=team[u'TempName'])
         elif len(command) < 31:
             if teams.find_one({"$or":[{"Name":command}, {"TempName":command}]}) == None:
-                teams.update({"Number":from_number},{"TempName":command})
+                teams.update({"Number":from_number},{"$set":{"TempName":command}})
                 message = stock_messages["Confirm Name"].format(team_name_temp=command)
             else:
                 message = stock_messages["Name Already Taken"].format(team_name_new=command,team_name_temp=team[u'TempName'])
