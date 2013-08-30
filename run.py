@@ -57,6 +57,8 @@ stock_messages = {
 parse_length = len(stock_messages["Parse Error"].format(text=""))
 name_length = len(stock_messages["Welcome"].format(team_name=""))
 reDigits = re.compile(r"^\d+$")
+reEndWhitespace = re.compile(r"\s+$")
+reBeginWhitespace = re.compile(r"^\s+")
 
 def parse_error(command):
     if len(command) + parse_length < 160:
@@ -84,7 +86,7 @@ def parse_puzzle_answers(team,from_number,root,leaf):
 def hello_monkey():
     
     from_number = request.values.get('From', None)
-    command = request.values.get('Body', None)
+    command = reBeginWhitespace.sub('', reEndWhitespace.sub('', request.values.get('Body', None)))
     
     tokens = command.split(None, 1)
     
