@@ -94,13 +94,35 @@ def parse_puzzle_answers(team,from_number,root,leaf):
     else:
         return stock_messages["Problem Not Exists"].format(puzzle_number=root)
 
+@app.route("/solved_puzzles.txt")
+def show_stats():
+    total_solved = [0]*10
+    puzzles_solved = [0]*9
+    for team in teams.find():
+        for i in range(10):
+            if len(team[u'Correct']) == i:
+                total_solved[i] += 1
+        for i in range(8):
+            if str(i+1) in team[u'Correct']:
+                puzzles_solved[i] += 1
+        if "META" in team[u'Correct']:
+            puzzles_solved[8] += 1
+    
+    ret = "# of Teams by total # of problems solved:\r\n"
+    for i in range(10):
+        ret += str(i) + ": " + str(total_solved[i])
         
+    ret += "\r\n# of puzzle solves by puzzle:\r\n"
+    for i in range(8):
+        ret += str(i) + ": " + str(puzzles_solved[i])
+        
+    ret += "META: " + str(puzzles_solved[8])
 
 @app.route("/allteams.txt")
 def show_teams():
     ret = ""
     for team in teams.find():
-        ret += '"' + team[u'TempName'] + '",' + str(len(team[u'Correct'])) + "\n"
+        ret += '"' + team[u'TempName'] + '",' + str(len(team[u'Correct'])) + "\r\n"
     return ret
 
 @app.route("/", methods=['GET', 'POST'])
@@ -142,7 +164,7 @@ def hello_monkey():
             message = parse_puzzle_answers(team, from_number, root, reWhitespace.sub('',leaf).upper())
         elif root.upper() == "META":
             if "META" in team[u'Correct']:
-                message = stock_messages["Meta Answered"]   
+                message = stock_messages["Meta Answered"]
             else:
                 if reWhitespace.sub('',leaf).upper() == answers["META"].upper():
                     message = stock_messages["Meta Correct"].format(answer=reWhitespace.sub('',leaf).upper())
