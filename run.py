@@ -64,7 +64,7 @@ def parse_error(command):
     else:
         return stock_messages["Parse Error"].format(text=(command[:160-parse_length-4] + " ..."))
         
-def parse_puzzle_answers(team,root,leaf):
+def parse_puzzle_answers(team,from_number,root,leaf):
     if root in answers:
         if root in team[u'Correct']:
             return stock_messages["Already Answered"].format(puzzle_number=root)
@@ -114,7 +114,7 @@ def hello_monkey():
     elif len(tokens) == 2:
         root,leaf = tokens
         if reDigits.search(root) != None:
-            message = parse_puzzle_answers(team, root, leaf)
+            message = parse_puzzle_answers(team, from_number, root, leaf)
         elif root.upper() == "META":
             if "META" in team[u'Correct']:
                 message = stock_messages["Meta Answered"]   
