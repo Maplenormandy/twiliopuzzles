@@ -25,7 +25,7 @@ answers = {
 storyline = (
     "Apparently someone in customer support taped DIABOLIC to their back.",
     "What were MENORAHS doing there? Remind me to ask Peter about them...",
-    "Looks like somone pretty knowledgable messed with the DEFAULTS on the piffy.",
+    "Looks like someone pretty knowledgeable messed with the DEFAULTS on the piffy.",
     "Turns out this customer has the same favorite brand of HYDRANTS as you!.",
     "The customer must have been from the company, they mentioned the UPDRAFTS in the support offices.",
     "GRAVITON. Remember that one time you became obsessed over them for a week and ...",
@@ -139,7 +139,7 @@ def show_stats():
 def show_teams():
     ret = ""
     for team in teams.find():
-        ret += '"' + team[u'TempName'] + '",' + str(len(team[u'Correct'])) + "\r\n"
+        ret += '"' + team[u'TempName'] + '",' + ",".join(team[u'Correct']) + "\r\n"
     return Response(ret, mimetype='text/plain')
 
 @app.route("/", methods=['GET', 'POST'])
